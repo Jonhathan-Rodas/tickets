@@ -12,13 +12,13 @@ class TicketController extends Controller
     public function index()
     {
         $services = Service::all();
-        return view('tiket.index')->with(compact('services'));
+        return view('admin.tiket.index')->with(compact('services'));
     }
 
     public function create($service_id)
     {
         $service = Service::findOrFail($service_id);
-        return view('tiket.create')->with(compact('service'));
+        return view('admin.tiket.create')->with(compact('service'));
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class TicketController extends Controller
         ]);
 
         $id = $ticket->id;
-        $pdf = \PDF::loadView('tiket.pdf', compact('ticket', 'id'));
+        $pdf = \PDF::loadView('admin.tiket.pdf', compact('ticket', 'id'));
         $ticket->save();
 
         return  $pdf->download('invoice.pdf');
@@ -48,7 +48,7 @@ class TicketController extends Controller
     public function list()
     {
         $tickets = Ticket::paginate(10);
-        return view('tiket.list')->with(compact('tickets'));
+        return view('admin.tiket.list')->with(compact('tickets'));
     }
 
     public function report()
@@ -61,7 +61,7 @@ class TicketController extends Controller
         });
 
 
-        $pdf = \PDF::loadView('tiket.report', compact('tickets', 'total'));
+        $pdf = \PDF::loadView('admin.tiket.report', compact('tickets', 'total'));
 
         return  $pdf->download('invoice.pdf');
     }
